@@ -5,7 +5,14 @@ import "controllers"
 import "./style"
 import "./jquery"
 
+$(function(){
+    $('[data-bs-toggle="tooltip"]').tooltip();
+    // $(".copy-link").tooltip()
+});
 
+// $(".copy-link").on('mouseenter',function(){
+//     $(this).attr("title","Copy buy link to clipboard").tooltip("show")
+// })
 
 
 
@@ -40,11 +47,33 @@ $("#delete-books").on("click",function(){
     });
     // alert(bookIds)
 
-    $.ajax({
-        url: 'books/bulk_delete_books',
-        type: "DELETE",
-        data: { book_ids: bookIds }
-    });
+    if(confirm("Are you sure? you wanted to delete selected books.")){
+        counter=0
+        $.ajax({
+            url: 'books/bulk_delete_books',
+            type: "DELETE",
+            data: { book_ids: bookIds },
+            beforeSend: () => {
+                $("#loader").show()
+            },
+            complete: () => {
+                $("#loader").hide()
+            },
+            success: () => {
+                // alert("Selected books deleted successfully.")
+                $("#flash-notification").html(
+                    `<div class="alert alert-success" role="success">
+                        Your request has been executed successfully. Selected books has been deleted from the database.
+                    </div>`
+                )
+                setInterval(function(){
+                    $(".alert").fadeOut();
+                }, 2000)
+            }
+        });
+    }else{
+        return false;
+    }
 
 });
 
@@ -69,5 +98,22 @@ $("#master-book-check").on("click",function(){
     }else{
         $("#delete-books").hide()
     }
+});
+
+
+$(".copy-link").on('click',function(){
+    const link=$(this).prev('a').attr("href");
+    // alert(link);
+
+    var temp = $("<input>");
+    $("body").append(temp);
+    temp.val(link).select();
+    document.execCommand('copy');
+
+    temp.remove();
+    $(this).attr('title','Link Copied')
+           .tooltip('show')
+           .attr('title','Copy link to clipboard')
+           
 });
 

@@ -1,6 +1,7 @@
 <div class="col-lg-12 mt-5 mb-5">
+    <div id="flash-notification"></div>
     <table class="table table-bordered">
-        <thead class="bg-secondary text-white">
+        <thead class="bg-primary text-white">
             <tr>
                 <th>
                     <div class="form-check">
@@ -12,6 +13,7 @@
                 <th>Price</th>
                 <th>Author</th>
                 <th>Category</th>
+                <th>Buy Link</th>
             </tr>
         </thead>
         <tbody>
@@ -27,6 +29,10 @@
                     <td><%= book.price_with_currency_sign %></td>
                     <td><%= book.author %></td>
                     <td><%= book.category %></td>
+                    <td>
+                        <%= link_to 'Buy this book', "#{book.buy_link}/#{book.id}", class: 'btn btn-sm btn-success book-buy-link', target: '_blank' %>
+                        <button type="button" class="btn btn-sm btn-outline-primary copy-link" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Copy buy link to clipboard">Copy buy link</button>
+                    </td>
                 </tr>
             <% end %>
         </tbody>
