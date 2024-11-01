@@ -1,0 +1,36 @@
+<div class="col-lg-12 mt-5 mb-5">
+    <table class="table table-bordered">
+        <thead class="bg-secondary text-white">
+            <tr>
+                <th>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input book-select-input" id="master-book-check">
+                        <label class="form-check-label" for="master-book-check"></label>
+                    </div>
+                </th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Author</th>
+                <th>Category</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @books.each do |book| %>
+                <tr id="book-row-<%=book.id%>">
+                    <td>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input book-select-check" id="book_<%=book.id%>" data-book-id="<%=book.id%>">
+                            <label class="form-check-label" for="book_<%=book.id%>"></label>
+                        </div>
+                    </td>
+                    <td><%= book.name %></td>
+                    <td><%= book.price_with_currency_sign %></td>
+                    <td><%= book.author %></td>
+                    <td><%= book.category %></td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+
+    <button type="button" class="btn btn-sm btn-outline-danger" id="delete-books" style="display:none;">Delete Books</button>
+</div>
